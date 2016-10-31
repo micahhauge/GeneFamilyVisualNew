@@ -24,8 +24,8 @@ function Graph (width, height, xGrid, yGrid) {
   this.width = width;
   this.height = height;
 
-  this.addExon = function (x, y) {
-    this.exons.push(new Exon(x, y));
+  this.addExon = function (x, y, graphicSize) {
+    this.exons.push(new Exon(x, y, graphicSize));
   }
 
   this.addGeneFamily = function (exons, color) {
@@ -45,9 +45,11 @@ function Graph (width, height, xGrid, yGrid) {
  *  @param y : where the exon should be positioned vertically (in grid units, not pixels)
  *  @attribute familyList : a list of geneFamilies that this Exon appears in
  */
-function Exon (x, y) {
+function Exon (x, y, graphicSize = 1) {
+
   this.x = x;
   this.y = y;
+  this.graphicSize = graphicSize;
   this.familyList = [];
   return this;
 }
@@ -61,11 +63,6 @@ function GeneFamily (exons, color) {
   this.familyColor = color;
   return this;
 }
-
-function test () {
-  console.log('yay');
-}
-
 
 
 /**  Function to render the graph
@@ -81,8 +78,8 @@ function renderGraph (graph) {
     document.getElementById('visual'),
     {
       url: 'render.js',
-      width: screen.width,
-      height: screen.height - 200}
+      width: screen.width * 3,
+      height: screen.height}
   );
 
   // pass the rendering thread the node data in string form

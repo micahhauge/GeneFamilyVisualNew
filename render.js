@@ -14,15 +14,10 @@ stage.on('message:externalData', function(data) {
       this.exonGraphics.push(new ExonGraphic(graph.exons[i], i));
     }
 
-
-    console.log(graph.geneFamilies.length);
-
     // create geneFamilyGraphics
     for (var i = 0; i < graph.geneFamilies.length; i++) {
       this.familyGraphics.push(new FamilyGraphic(graph.geneFamilies[i], this.exonGraphics));
     }
-
-
 
     // render genegFamilyGraphics
     for (var i = 0; i < this.familyGraphics.length; i++) {
@@ -49,12 +44,12 @@ stage.on('message:externalData', function(data) {
     for (var i = 0; i < family.exons.length; i++) {
       exonGraphics[family.exons[i]].familyCount += 1;
 
-      var lineOffset = exonGraphics[family.exons[i]].familyCount;
+      var lineOffset = exonGraphics[family.exons[i]].familyCount + (exonGraphics[family.exons[i]].graphicSize * -.03);
 
       if (i > 1) {
-        this.familyPath.moveTo(exonGraphics[family.exons[i-1]].centerX, exonGraphics[family.exons[i-1]].centerY + (10 * lineOffset) + genOffset);
+        this.familyPath.moveTo(exonGraphics[family.exons[i-1]].centerX, exonGraphics[family.exons[i-1]].centerY + (7 * lineOffset));
       }
-      this.familyPath.lineTo(exonGraphics[family.exons[i]].centerX, exonGraphics[family.exons[i]].centerY + (10 * lineOffset) + genOffset);
+      this.familyPath.lineTo(exonGraphics[family.exons[i]].centerX, exonGraphics[family.exons[i]].centerY + (7 * lineOffset));
     }
     this.familyPath.stroke(family.familyColor, 3);
     return this;
@@ -63,19 +58,21 @@ stage.on('message:externalData', function(data) {
 
   function ExonGraphic (exon, text) {
     // padding between nodes
-    var padding = 40;
+    var padding = 50;
     var margin = 10;
-    var roundness = .35;
-    var nodeSize = 50;
+    var roundness = .5;
     var stroke = 1.5;
-    var nodeSize = 50;
+    var nodeSize = 40;
+
+    this.graphicSize = nodeSize * exon.graphicSize;
+    graphicSize = nodeSize * exon.graphicSize;
 
     this.familyCount = 0;
-    this.graphic = new Rect(exon.x*(nodeSize + padding) + margin, exon.y*(nodeSize + padding) + margin, nodeSize, nodeSize, nodeSize * roundness);
+    this.graphic = new Rect(exon.x*(nodeSize + padding) + margin, exon.y*(nodeSize + padding) + margin - (.5 * graphicSize), this.graphicSize, this.graphicSize, graphicSize * roundness);
     this.graphic.fill('#cceeff');
     this.graphic.stroke('#000000', stroke)
-    this.centerX = exon.x*(nodeSize + padding) + margin + .5 * nodeSize;
-    this.centerY = exon.y*(nodeSize + padding) + margin + .5 * nodeSize;
+    this.centerX = exon.x*(nodeSize + padding) + margin + .5 * this.graphicSize;
+    this.centerY = exon.y*(nodeSize + padding) + margin;
 
     this.info = new Text(text).attr({
       x: this.centerX-6,
