@@ -35,7 +35,7 @@ stage.on('message:externalData', function(data) {
 
 
   function FamilyGraphic (family, exonGraphics) {
-    var genOffset = -15;
+    var genOffset = -0;
     this.familyPath = new Path();
     this.familyPath.moveTo(exonGraphics[family.exons[0]].centerX, exonGraphics[family.exons[0]].centerY + genOffset);
 
@@ -44,12 +44,12 @@ stage.on('message:externalData', function(data) {
     for (var i = 0; i < family.exons.length; i++) {
       exonGraphics[family.exons[i]].familyCount += 1;
 
-      var lineOffset = exonGraphics[family.exons[i]].familyCount + (exonGraphics[family.exons[i]].graphicSize * -.03);
+      lineOffset = exonGraphics[family.exons[i]].familyCount + (exonGraphics[family.exons[i]].graphicSize * -.03);
 
       if (i > 1) {
-        this.familyPath.moveTo(exonGraphics[family.exons[i-1]].centerX, exonGraphics[family.exons[i-1]].centerY + (7 * lineOffset));
+        this.familyPath.moveTo(exonGraphics[family.exons[i-1]].centerX, exonGraphics[family.exons[i-1]].centerY + (10 * lineOffset) + genOffset);
       }
-      this.familyPath.lineTo(exonGraphics[family.exons[i]].centerX, exonGraphics[family.exons[i]].centerY + (7 * lineOffset));
+      this.familyPath.lineTo(exonGraphics[family.exons[i]].centerX, exonGraphics[family.exons[i]].centerY + (10 * lineOffset) + genOffset);
     }
     this.familyPath.stroke(family.familyColor, 3);
     return this;
@@ -62,7 +62,7 @@ stage.on('message:externalData', function(data) {
     var margin = 10;
     var roundness = .5;
     var stroke = 1.5;
-    var nodeSize = 40;
+    var nodeSize = 45;
 
     this.graphicSize = nodeSize * exon.graphicSize;
     graphicSize = nodeSize * exon.graphicSize;

@@ -79,7 +79,7 @@ function renderGraph (graph) {
     {
       url: 'render.js',
       width: screen.width * 3,
-      height: screen.height}
+      height: 800}
   );
 
   // pass the rendering thread the node data in string form
